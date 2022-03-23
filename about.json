@@ -1,0 +1,10 @@
+{
+  "about_url": null,
+  "license_url": null,
+  "name": "discourse-typst",
+  "component": true,
+  "assets": {
+    "wasm": "assets/discourse_typst_bg.wasm",
+    "worker": "assets/discourse_typst.js"
+  }
+}
