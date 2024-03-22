@@ -1,11 +1,8 @@
-# discourse-svgbob
+# discourse-typst
 
 ````
-```svgbob height=500
-*-------------*
-| hello world |
-*-------------*
+```typst
+${ x in RR | x "is natural"and x < 10 }$
 ```
 ````
 
-See: https://github.com/ivanceras/svgbob

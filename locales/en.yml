@@ -1,5 +1,2 @@
 en:
-  theme_metadata:
-    description: "Svgbob component"
-
-  insert_svgbob_sample: "Svgbob diagram"
+  render_typst: "Render Typst"

@@ -43,9 +43,9 @@ function messageFunction(e) {
         let seq = e.data[0];
         let text = e.data[1];
         console.log("converting")
-        console.log(text)
+        // console.log(text)
         let converted = render_typst(text)
-        console.log(converted)
+        // console.log(converted)
         postMessage([seq, converted]);
     }
 }
