@@ -9,10 +9,11 @@ ${ x in RR | x "is natural"and x < 10 }$
 # TODO
 - [x] don't replace code block when rendering
     - [ ] nicer styling
+    - [ ] handle very large documents: make zoomable and scrollable
     - [ ] configurable
         - [ ] maybe with user option to show/copy the source code from context menu
 - [ ] add loading animation if rendering is taking longer
-- [ ] loading anumation if comiler takes longer to download
+- [ ] add loading animation if comiler takes longer to download
 - [ ] multiple output formats
     - [ ] optionally with multiple wasm file to not bloat the main one
     - [ ] way to download PDF file
@@ -38,3 +39,4 @@ ${ x in RR | x "is natural"and x < 10 }$
     - [ ] print pdf button
     - [ ] "try it out yourself" button that redirects to playground-ish site
         - [ ] this redirects to playground with all project files included
+- [ ] specify typst version

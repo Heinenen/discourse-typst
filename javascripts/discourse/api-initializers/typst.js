@@ -10,7 +10,7 @@ let webWorker;
 const wasmUrl = settings.theme_uploads.wasm;
 
 async function applyTypst(element, key = "composer") {
-  let typst_blocks = element.querySelectorAll("pre[data-code-wrap=render-typst")
+  let typst_blocks = element.querySelectorAll("pre[data-code-wrap=typst][data-code-render=true]")
   if (!typst_blocks.length) {
     return;
   }
@@ -70,7 +70,7 @@ async function cookTypst(text) {
 
 export default apiInitializer("1.13.0", (api) => {
   // this is a hack as applySurround expects a top level
-  // composer key, not possible from a theme
+  // composer key, not possible from a theme component
   window.I18n.translations[window.I18n.locale].js.composer.typst_sample = "${ x in RR | x \"is natural\"and x < 10 }$";
 
   api.addComposerToolbarPopupMenuOption({
