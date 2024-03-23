@@ -7,6 +7,8 @@ ${ x in RR | x "is natural"and x < 10 }$
 ````
 
 # TODO
+- [x] admin configurable preamble
+    - [x] user configurable preamble
 - [x] don't replace code block when rendering
     - [ ] nicer styling
     - [ ] handle very large documents: make zoomable and scrollable
@@ -17,8 +19,6 @@ ${ x in RR | x "is natural"and x < 10 }$
 - [ ] multiple output formats
     - [ ] optionally with multiple wasm file to not bloat the main one
     - [ ] way to download PDF file
-- [x] admin configurable preamble
-    - [ ] user configurable preamble
 - [ ] configurable code tag (instead of `render-typst`)
 - [ ] configurable size of render
     - [ ] maybe with a collapsible part

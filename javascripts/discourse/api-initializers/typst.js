@@ -30,7 +30,8 @@ async function applyTypst(element, key = "composer") {
       return;
     }
 
-    let cooked = await cookTypst(code.innerText);
+    let remove_preamble = block.getAttribute("data-code-preamble") == "false"
+    let cooked = await cookTypst(code.innerText, remove_preamble);
 
     block.dataset.processed = "true";
     let div = document.createElement("div")
@@ -42,7 +43,7 @@ async function applyTypst(element, key = "composer") {
 let messageSeq = 0;
 let resolvers = {};
 
-async function cookTypst(text) {
+async function cookTypst(text, remove_preamble = false) {
   let seq = messageSeq++;
 
   if (!webWorker) {
@@ -57,8 +58,12 @@ async function cookTypst(text) {
     };
   }
 
-  let preamble = settings.preamble.trim();
-  let message = [seq, preamble + "\n" + text];
+  let message_text = text;
+  if (!remove_preamble) {
+    message_text = settings.preamble + "\n" + message_text
+  }
+
+  let message = [seq, message_text];
   webWorker.postMessage(message);
 
   let promise = new Promise((resolve, reject) => {
