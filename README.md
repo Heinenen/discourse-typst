@@ -17,7 +17,8 @@ ${ x in RR | x "is natural"and x < 10 }$
 - [ ] multiple output formats
     - [ ] optionally with multiple wasm file to not bloat the main one
     - [ ] way to download PDF file
-- [ ] configurable preamble
+- [x] admin configurable preamble
+    - [ ] user configurable preamble
 - [ ] configurable code tag (instead of `render-typst`)
 - [ ] configurable size of render
     - [ ] maybe with a collapsible part

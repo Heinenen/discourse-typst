@@ -57,9 +57,9 @@ async function cookTypst(text) {
     };
   }
 
-  let message = [seq, text];
-
-  webWorker.postMessage([seq, text]);
+  let preamble = settings.preamble.trim();
+  let message = [seq, preamble + "\n" + text];
+  webWorker.postMessage(message);
 
   let promise = new Promise((resolve, reject) => {
     resolvers[seq] = resolve;

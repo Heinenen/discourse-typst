@@ -1,3 +1,6 @@
 # settings.yml
 preamble:
-  default: "#set page(width: auto, height: auto, margin: 10pt)\n"
+  default: |
+    #set page(width: 300pt, height: auto, margin: 10pt)
+    #set page(fill: rgb(34, 34, 34))
+    #set text(fill: rgb(219, 222, 225))
