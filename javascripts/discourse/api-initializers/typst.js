@@ -9,6 +9,25 @@ let webWorker;
 
 const wasmUrl = settings.theme_uploads.wasm;
 
+function build_display(cooked) {
+  let snippet_result = document.createElement("div");
+  snippet_result.classList.add("snippet-result")
+
+  let snippet_ctas = document.createElement("div");
+  snippet_ctas.classList.add("snippet-ctas")
+
+  let snippet_result_code = document.createElement("div");
+  snippet_result_code.classList.add("snippet-result-code")
+
+  let snippet_box_edit = document.createElement("div")
+  snippet_box_edit.classList.add("snippet-box-edit")
+  snippet_box_edit.innerHTML = cooked
+  
+  snippet_result.append(snippet_ctas, snippet_result_code)
+  snippet_result_code.append(snippet_box_edit)
+  return snippet_result;
+}
+
 async function applyTypst(element, key = "composer") {
   let typst_blocks = element.querySelectorAll("pre[data-code-wrap=typst][data-code-render=true]")
   if (!typst_blocks.length) {
@@ -34,8 +53,7 @@ async function applyTypst(element, key = "composer") {
     let cooked = await cookTypst(code.innerText, remove_preamble);
 
     block.dataset.processed = "true";
-    let div = document.createElement("div")
-    div.innerHTML = cooked
+    let div = build_display(cooked);
     block.appendChild(div);
   }); 
 }

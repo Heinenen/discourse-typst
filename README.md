@@ -11,16 +11,12 @@ ${ x in RR | x "is natural"and x < 10 }$
     - [x] user configurable preamble
 - [x] don't replace code block when rendering
     - [ ] nicer styling
+    - [ ] something similar to how HTML/CSS/JS is handled here: [example](https://stackoverflow.com/questions/67336788/how-to-make-svg-map-zoomable-and-scrollable)
     - [ ] handle very large documents: make zoomable and scrollable
     - [ ] configurable
         - [ ] maybe with user option to show/copy the source code from context menu
-- [ ] add loading animation if rendering is taking longer
-- [ ] add loading animation if comiler takes longer to download
-- [ ] multiple output formats
-    - [ ] optionally with multiple wasm file to not bloat the main one
-    - [ ] way to download PDF file
-- [ ] configurable code tag (instead of `render-typst`)
-- [ ] configurable size of render
+- [ ] configurable code tag (instead of `typst render=true`)
+- [ ] configurable size of viewport
     - [ ] maybe with a collapsible part
     - [ ] maybe with a scroll wheel
 - [ ] handle multiple pages
@@ -41,3 +37,8 @@ ${ x in RR | x "is natural"and x < 10 }$
     - [ ] "try it out yourself" button that redirects to playground-ish site
         - [ ] this redirects to playground with all project files included
 - [ ] specify typst version
+- [ ] multiple output formats
+    - [ ] optionally with multiple wasm file to not bloat the main one
+    - [ ] way to download PDF file
+- [ ] add loading animation if rendering is taking longer
+- [ ] add loading animation if comiler takes longer to download
