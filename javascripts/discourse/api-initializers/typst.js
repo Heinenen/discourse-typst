@@ -9,7 +9,7 @@ let webWorker;
 
 const wasmUrl = settings.theme_uploads.wasm;
 
-function build_display(cooked) {
+function build_display(block, cooked) {
   let snippet_result = document.createElement("div");
   snippet_result.classList.add("snippet-result")
 
@@ -22,10 +22,24 @@ function build_display(cooked) {
   let snippet_box_edit = document.createElement("div")
   snippet_box_edit.classList.add("snippet-box-edit")
   snippet_box_edit.innerHTML = cooked
-  
-  snippet_result.append(snippet_ctas, snippet_result_code)
+
   snippet_result_code.append(snippet_box_edit)
-  return snippet_result;
+  snippet_result.append(snippet_ctas, snippet_result_code)
+  block.appendChild(snippet_result);
+  panzoom(snippet_box_edit.firstChild, {
+    bounds: true,
+    beforeWheel: function(e) {
+      // allow wheel-zoom only if ctrlKey is down. Otherwise - ignore
+      var shouldIgnore = !e.ctrlKey;
+      return shouldIgnore;
+    },
+    beforeMouseDown: function(e) {
+      // allow mouse-down panning only if ctrKey is NOT down. Avoids interference with zooming
+      // Not sure if actually needed
+      var shouldIgnore = e.ctrlKey;
+      return shouldIgnore;
+    }
+  })
 }
 
 async function applyTypst(element, key = "composer") {
@@ -53,9 +67,8 @@ async function applyTypst(element, key = "composer") {
     let cooked = await cookTypst(code.innerText, remove_preamble);
 
     block.dataset.processed = "true";
-    let div = build_display(cooked);
-    block.appendChild(div);
-  }); 
+    build_display(block, cooked);
+  });
 }
 
 let messageSeq = 0;
@@ -65,7 +78,7 @@ async function cookTypst(text, remove_preamble = false) {
   let seq = messageSeq++;
 
   if (!webWorker) {
-    webWorker = new Worker(webWorkerUrl, {type: "module"});
+    webWorker = new Worker(webWorkerUrl, { type: "module" });
     webWorker.postMessage(["wasmUrl", wasmUrl]);
     webWorker.onmessage = function (e) {
       let incomingSeq = e.data[0];
