@@ -2,7 +2,7 @@
 preamble:
   default: |
     #set page(width: 300pt, height: auto, margin: 10pt)
-    #set page(fill: rgb(34, 34, 34))
+    #set page(fill: rgb(49, 49, 49))
     #set text(fill: rgb(219, 222, 225))
   description:
     This code is inserted in front of every code block that's about to get compiled. The user can disable this for the current code block by passing 'preamble=false'.

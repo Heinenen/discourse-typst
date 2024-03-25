@@ -6,7 +6,21 @@
   "authors": "Heinenen",
   "assets": {
     "wasm": "assets/discourse_typst_bg.wasm",
-    "worker": "assets/discourse_typst.js"
+    "worker": "assets/discourse_typst.js",
+    "font1": "assets/fonts/DejaVuSansMono-Bold.ttf",
+    "font2": "assets/fonts/DejaVuSansMono-BoldOblique.ttf",
+    "font3": "assets/fonts/DejaVuSansMono-Oblique.ttf",
+    "font4": "assets/fonts/DejaVuSansMono.ttf",
+    "font5": "assets/fonts/LinLibertine_R.ttf",
+    "font6": "assets/fonts/LinLibertine_RB.ttf",
+    "font7": "assets/fonts/LinLibertine_RBI.ttf",
+    "font8": "assets/fonts/LinLibertine_RI.ttf",
+    "font9": "assets/fonts/NewCM10-Bold.otf",
+    "font10": "assets/fonts/NewCM10-BoldItalic.otf",
+    "font11": "assets/fonts/NewCM10-Italic.otf",
+    "font12": "assets/fonts/NewCM10-Regular.otf",
+    "font13": "assets/fonts/NewCMMath-Book.otf",
+    "font14": "assets/fonts/NewCMMath-Regular.otf"
   },
   "learn_more": "https://meta.discourse.org/t/beginners-guide-to-using-discourse-themes/91966",
   "theme_version": null,

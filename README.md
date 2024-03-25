@@ -11,23 +11,25 @@ ${ x in RR | x "is natural"and x < 10 }$
     - [x] user configurable preamble
 - [x] don't replace code block when rendering
     - [ ] nicer styling
+    - [ ] result div could be smaller if result is small enough (would "conflict" with good zooming)
     - [ ] something similar to how HTML/CSS/JS is handled here: [example](https://stackoverflow.com/questions/67336788/how-to-make-svg-map-zoomable-and-scrollable)
-    - [ ] handle very large documents: make zoomable and scrollable
-    - [ ] configurable
-        - [ ] maybe with user option to show/copy the source code from context menu
+    - [x] handle very large documents: make zoomable and scrollable
+- [ ] handle multiple pages
+- [x] font support
+    - [ ] option for admin to add more, e.g. via assets
+    - [ ] option for users to add more, e.g. from Google Fonts
+- [ ] Typst package support
+
+
+- [ ] multiple files support
+    - [ ] not only typst file but also bib files and csv etc.
 - [ ] configurable code tag (instead of `typst render=true`)
 - [ ] configurable size of viewport
     - [ ] maybe with a collapsible part
-    - [ ] maybe with a scroll wheel
-- [ ] handle multiple pages
+    - [x] maybe with a scroll wheel
 - [ ] way to handle uploaded typst files instead of code blocks
     - [ ] handle other uploaded file/assets like images
-- [ ] more fonts, best to have same fonts for all users
-    - [ ] option for admin to add more?
-- [ ] Typst package support
 - [ ] Typst "playground" support, meaning link to prefilled Typst project
-- [ ] multiple files support
-    - [ ] not only typst file but also bib files and csv etc.
 - [ ] better theme support
 - [ ] add buttons to code block
     - [ ] render button
@@ -42,3 +44,7 @@ ${ x in RR | x "is natural"and x < 10 }$
     - [ ] way to download PDF file
 - [ ] add loading animation if rendering is taking longer
 - [ ] add loading animation if comiler takes longer to download
+
+# Possible other features
+- [ ] option to replace codeblock with output (like the svgbob theme component)
+    - [ ] maybe with user option to show/copy the source code from context menu

@@ -4,12 +4,28 @@ import { Promise } from "rsvp";
 
 let wasm = undefined;
 
-const webWorkerUrl = settings.theme_uploads_local.worker;
+const webWorkerUrl = settings.theme_uploads.worker;
 let webWorker;
+const fontUrls = [
+  settings.theme_uploads.font1,
+  settings.theme_uploads.font2,
+  settings.theme_uploads.font3,
+  settings.theme_uploads.font4,
+  settings.theme_uploads.font5,
+  settings.theme_uploads.font6,
+  settings.theme_uploads.font7,
+  settings.theme_uploads.font8,
+  settings.theme_uploads.font9,
+  settings.theme_uploads.font10,
+  settings.theme_uploads.font11,
+  settings.theme_uploads.font12,
+  settings.theme_uploads.font13,
+  settings.theme_uploads.font14,
+]
 
 const wasmUrl = settings.theme_uploads.wasm;
 
-function build_display(block, cooked) {
+function buildDisplay(block, cooked) {
   let snippet_result = document.createElement("div");
   snippet_result.classList.add("snippet-result")
 
@@ -28,12 +44,12 @@ function build_display(block, cooked) {
   block.appendChild(snippet_result);
   panzoom(snippet_box_edit.firstChild, {
     bounds: true,
-    beforeWheel: function(e) {
+    beforeWheel: function (e) {
       // allow wheel-zoom only if ctrlKey is down. Otherwise - ignore
       var shouldIgnore = !e.ctrlKey;
       return shouldIgnore;
     },
-    beforeMouseDown: function(e) {
+    beforeMouseDown: function (e) {
       // allow mouse-down panning only if ctrKey is NOT down. Avoids interference with zooming
       // Not sure if actually needed
       var shouldIgnore = e.ctrlKey;
@@ -67,7 +83,7 @@ async function applyTypst(element, key = "composer") {
     let cooked = await cookTypst(code.innerText, remove_preamble);
 
     block.dataset.processed = "true";
-    build_display(block, cooked);
+    buildDisplay(block, cooked);
   });
 }
 
@@ -79,7 +95,7 @@ async function cookTypst(text, remove_preamble = false) {
 
   if (!webWorker) {
     webWorker = new Worker(webWorkerUrl, { type: "module" });
-    webWorker.postMessage(["wasmUrl", wasmUrl]);
+    webWorker.postMessage(["wasmUrl", wasmUrl, fontUrls]);
     webWorker.onmessage = function (e) {
       let incomingSeq = e.data[0];
       let converted = e.data[1];
