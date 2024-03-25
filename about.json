@@ -6,7 +6,8 @@
   "authors": "Heinenen",
   "assets": {
     "wasm": "assets/discourse_typst_bg.wasm",
-    "worker": "assets/discourse_typst.js",
+    "wasmGlue": "assets/discourse_typst.js",
+    "worker": "assets/worker.js",
     "font1": "assets/fonts/DejaVuSansMono-Bold.ttf",
     "font2": "assets/fonts/DejaVuSansMono-BoldOblique.ttf",
     "font3": "assets/fonts/DejaVuSansMono-Oblique.ttf",

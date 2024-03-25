@@ -1,11 +1,10 @@
 import { apiInitializer } from "discourse/lib/api";
-import { later } from "@ember/runloop";
 import { Promise } from "rsvp";
 
-let wasm = undefined;
+let webWorker;
 
 const webWorkerUrl = settings.theme_uploads.worker;
-let webWorker;
+const wasmGlueUrl = settings.theme_uploads.wasmGlue;
 const fontUrls = [
   settings.theme_uploads.font1,
   settings.theme_uploads.font2,
@@ -95,7 +94,7 @@ async function cookTypst(text, remove_preamble = false) {
 
   if (!webWorker) {
     webWorker = new Worker(webWorkerUrl, { type: "module" });
-    webWorker.postMessage(["wasmUrl", wasmUrl, fontUrls]);
+    webWorker.postMessage(["wasmUrl", wasmUrl, wasmGlueUrl, fontUrls]);
     webWorker.onmessage = function (e) {
       let incomingSeq = e.data[0];
       let converted = e.data[1];
