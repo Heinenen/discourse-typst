@@ -41,21 +41,24 @@ function buildDisplay(block, cooked) {
   snippet_result_code.append(snippet_box_edit)
   snippet_result.append(snippet_ctas, snippet_result_code)
   block.appendChild(snippet_result);
-  panzoom(snippet_box_edit.firstChild, {
-    bounds: true,
-    beforeWheel: function (e) {
-      // allow wheel-zoom only if ctrlKey is down. Otherwise - ignore
-      var shouldIgnore = !e.ctrlKey;
-      return shouldIgnore;
-    },
-    beforeMouseDown: function (e) {
-      // allow mouse-down panning only if ctrKey is NOT down. Avoids interference with zooming
-      // Not sure if actually needed
-      var shouldIgnore = e.ctrlKey;
-      return shouldIgnore;
+
+  if (snippet_box_edit.firstChild.nodeName === "svg") {
+      panzoom(snippet_box_edit.firstChild, {
+        bounds: true,
+        beforeWheel: function (e) {
+          // allow wheel-zoom only if ctrlKey is down. Otherwise - ignore
+          var shouldIgnore = !e.ctrlKey;
+          return shouldIgnore;
+        },
+        beforeMouseDown: function (e) {
+          // allow mouse-down panning only if ctrKey is NOT down. Avoids interference with zooming
+          // Not sure if actually needed
+          var shouldIgnore = e.ctrlKey;
+          return shouldIgnore;
+        }
+      })
     }
-  })
-}
+  }
 
 async function applyTypst(element, key = "composer") {
   let typst_blocks = element.querySelectorAll("pre[data-code-wrap=typst][data-code-render=true]")
