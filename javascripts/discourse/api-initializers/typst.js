@@ -52,17 +52,15 @@ function buildDisplay(block, cooked) {
   block.appendChild(snippet_result);
 
   panzoom(pages, {
-    bounds: true,
+    transformOrigin: {x: 0, y: 0},
     beforeWheel: function (e) {
       // allow wheel-zoom only if ctrlKey is down. Otherwise - ignore
       var shouldIgnore = !e.ctrlKey;
       return shouldIgnore;
     },
     beforeMouseDown: function (e) {
-      // allow mouse-down panning only if ctrKey is NOT down. Avoids interference with zooming
-      // Not sure if actually needed
-      var shouldIgnore = e.ctrlKey;
-      return shouldIgnore;
+      // disable panning
+      return true;
     }
   })
 }

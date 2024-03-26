@@ -10,16 +10,18 @@ ${ x in RR | x "is natural"and x < 10 }$
 - [x] admin configurable preamble
     - [x] user configurable preamble
 - [x] handle very large documents: make zoomable and scrollable
-- [ ] handle multiple pages
+- [x] handle multiple pages
 - [x] font support
     - [ ] low prio: option for admin to add more, e.g. via assets
     - [ ] low prio: option for users to add more, e.g. from Google Fonts
 - [ ] Typst package support
 
 # UI
+- [ ] center pages in result
 - [ ] something similar to how HTML/CSS/JS is handled here: [example](https://stackoverflow.com/questions/67336788/how-to-make-svg-map-zoomable-and-scrollable)
   - [ ] compile button?
   - [ ] make result collapsible?
+  - [ ] reset zoom button
 - [ ] better general styling
 - [ ] configurable size of viewport
     - [ ] result div could be smaller if result is small enough (would "conflict" with good zooming)
