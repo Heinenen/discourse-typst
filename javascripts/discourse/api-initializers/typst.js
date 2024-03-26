@@ -38,6 +38,7 @@ function buildDisplay(block, cooked) {
     snippet_box_edit.classList.add("snippet-box-edit")
 
     let pages = document.createElement("div")
+    pages.classList.add("pages")
 
     cooked.forEach((svg, idx) => {
         let node = document.createElement("div");
