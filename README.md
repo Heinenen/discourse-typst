@@ -6,27 +6,30 @@ ${ x in RR | x "is natural"and x < 10 }$
 ```
 ````
 
-# TODO
+# Priority
 - [x] admin configurable preamble
     - [x] user configurable preamble
-- [x] don't replace code block when rendering
-    - [ ] nicer styling
-    - [ ] result div could be smaller if result is small enough (would "conflict" with good zooming)
-    - [ ] something similar to how HTML/CSS/JS is handled here: [example](https://stackoverflow.com/questions/67336788/how-to-make-svg-map-zoomable-and-scrollable)
-    - [x] handle very large documents: make zoomable and scrollable
+- [x] handle very large documents: make zoomable and scrollable
 - [ ] handle multiple pages
 - [x] font support
-    - [ ] option for admin to add more, e.g. via assets
-    - [ ] option for users to add more, e.g. from Google Fonts
+    - [ ] low prio: option for admin to add more, e.g. via assets
+    - [ ] low prio: option for users to add more, e.g. from Google Fonts
 - [ ] Typst package support
 
+# UI
+- [ ] something similar to how HTML/CSS/JS is handled here: [example](https://stackoverflow.com/questions/67336788/how-to-make-svg-map-zoomable-and-scrollable)
+  - [ ] compile button?
+  - [ ] make result collapsible?
+- [ ] better general styling
+- [ ] configurable size of viewport
+    - [ ] result div could be smaller if result is small enough (would "conflict" with good zooming)
 
+# More TODOs
 - [ ] multiple files support
     - [ ] not only typst file but also bib files and csv etc.
-- [ ] configurable code tag (instead of `typst render=true`)
-- [ ] configurable size of viewport
-    - [ ] maybe with a collapsible part
-    - [x] maybe with a scroll wheel
+    - [ ] make code blocks collapsible
+- [ ] make links/refs clickable
+    - [ ] scroll to the appropriate position
 - [ ] way to handle uploaded typst files instead of code blocks
     - [ ] handle other uploaded file/assets like images
 - [ ] Typst "playground" support, meaning link to prefilled Typst project
@@ -38,12 +41,13 @@ ${ x in RR | x "is natural"and x < 10 }$
     - [ ] print pdf button
     - [ ] "try it out yourself" button that redirects to playground-ish site
         - [ ] this redirects to playground with all project files included
-- [ ] specify typst version
+- [ ] specify typst version (comes at cost of very big theme component)
 - [ ] multiple output formats
     - [ ] optionally with multiple wasm file to not bloat the main one
     - [ ] way to download PDF file
 - [ ] add loading animation if rendering is taking longer
 - [ ] add loading animation if comiler takes longer to download
+- [ ] configurable code tag (instead of `typst render=true`)?
 
 # Possible other features
 - [ ] option to replace codeblock with output (like the svgbob theme component)
