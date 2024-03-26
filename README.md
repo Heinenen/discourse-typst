@@ -24,6 +24,7 @@ You can now follow the steps [here](https://meta.discourse.org/t/install-a-theme
 - [x] font support
     - [ ] low prio: option for admin to add more, e.g. via assets
     - [ ] low prio: option for users to add more, e.g. from Google Fonts
+- [x] support `#datetime.today()`
 - [ ] Typst package support
 
 ### UI
@@ -41,6 +42,7 @@ You can now follow the steps [here](https://meta.discourse.org/t/install-a-theme
 - [ ] multiple files support
     - [ ] not only typst file but also bib files and csv etc.
     - [ ] make code blocks collapsible
+- [ ] make `datetime.today()` remember the time of posting (or of last edit?)
 - [ ] make links/refs clickable
     - [ ] scroll to the appropriate position
 - [ ] way to handle uploaded typst files instead of code blocks
@@ -55,6 +57,8 @@ You can now follow the steps [here](https://meta.discourse.org/t/install-a-theme
     - [ ] "try it out yourself" button that redirects to playground-ish site
         - [ ] this redirects to playground with all project files included
 - [ ] specify typst version (comes at cost of very big theme component)
+    - [ ] remember version at time of posting, to have archivable results
+    - [ ] warning for user, if the compiled code is not from the latest version
 - [ ] multiple output formats
     - [ ] optionally with multiple wasm file to not bloat the main one
     - [ ] way to download PDF file
