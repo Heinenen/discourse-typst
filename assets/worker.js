@@ -6,7 +6,9 @@ function loadWasm(wasmModuleUrl, wasmGlueUrl, fontUrls) {
     import(wasmGlueUrl).then(glue => {
         wasmGlue = glue;
         return wasmGlue.default(wasmModuleUrl)
-    }).then(_wasm => fontFilesPromise).then(fontFiles => {
+    }).then(_wasm => {
+        return fontFilesPromise
+    }).then(fontFiles => {
         wasmGlue.set_fonts(fontFiles);
         fonts = true;
     })
@@ -21,8 +23,8 @@ function loadFonts(fontUrls) {
 
 function messageFunction(e) {
     if (e.data[0] === "wasmUrl") {
+        console.log("Loading Typst compiler")
         loadWasm(e.data[1], e.data[2], e.data[3]);
-        console.log("loading wasm")
         return;
     }
     if (!wasmGlue || !fonts) {
@@ -30,11 +32,11 @@ function messageFunction(e) {
         setTimeout(() => {
             messageFunction(e);
         }, 50);
-        console.log("waiting for timeout")
+        console.log("Waiting for timeout")
     } else {
         let seq = e.data[0];
         let text = e.data[1];
-        console.log("converting")
+        console.log("Converting Typst block")
         let converted = wasmGlue.render_typst(text)
         postMessage([seq, converted]);
     }

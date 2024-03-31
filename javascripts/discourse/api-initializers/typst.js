@@ -3,8 +3,8 @@ import { Promise } from "rsvp";
 
 let webWorker;
 
-const webWorkerUrl = settings.theme_uploads.worker;
-const wasmGlueUrl = settings.theme_uploads.wasmGlue;
+const webWorkerUrl = settings.theme_uploads_local.worker;
+const wasmGlueUrl = settings.theme_uploads_local.wasmGlue;
 const fontUrls = [
     settings.theme_uploads.font1,
     settings.theme_uploads.font2,
@@ -21,7 +21,6 @@ const fontUrls = [
     settings.theme_uploads.font13,
     settings.theme_uploads.font14,
 ]
-
 const wasmUrl = settings.theme_uploads.wasm;
 
 function buildDisplay(block, cooked) {
