@@ -184,7 +184,7 @@ export default apiInitializer("1.13.0", (api) => {
                 resolve();
                 return;
             }
-            processTypst(findTypstBlock(this.reply)).then((svgStrings) => {
+            processTypst(typstBlock).then((svgStrings) => {
                 // let svgString = svgStrings[0];
                 // console.log("heyo" + svgString)
                 return svgStrings[0];

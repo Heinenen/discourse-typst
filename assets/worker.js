@@ -5,7 +5,7 @@ function loadWasm(wasmModuleUrl, wasmGlueUrl, fontUrls) {
     let fontFilesPromise = loadFonts(fontUrls);
     import(wasmGlueUrl).then(glue => {
         wasmGlue = glue;
-        return wasmGlue.default(wasmModuleUrl)
+        return wasmGlue.default({module_or_path: wasmModuleUrl})
     }).then(_wasm => {
         return fontFilesPromise
     }).then(fontFiles => {
