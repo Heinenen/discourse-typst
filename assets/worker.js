@@ -5,7 +5,7 @@ function loadWasm(wasmModuleUrl, wasmGlueUrl, fontUrls) {
     let fontFilesPromise = loadFonts(fontUrls);
     import(wasmGlueUrl).then(glue => {
         wasmGlue = glue;
-        return wasmGlue.default({module_or_path: wasmModuleUrl})
+        return wasmGlue.default({ module_or_path: wasmModuleUrl })
     }).then(_wasm => {
         return fontFilesPromise
     }).then(fontFiles => {
@@ -37,8 +37,13 @@ function messageFunction(e) {
         let seq = e.data[0];
         let text = e.data[1];
         console.log("Converting Typst block")
-        let converted = wasmGlue.render_typst(text)
-        postMessage([seq, converted]);
+        let converted;
+        try {
+            converted = wasmGlue.render_typst(text)
+            postMessage([seq, converted]);
+        } catch (error) {
+            console.warn(error)
+        }
     }
 }
 
