@@ -90,10 +90,22 @@ async function cookTypst(text, remove_preamble = false) {
     return promise;
 }
 
-function findTypstBlock(msgContent) {
-    const regex = /```(tr\n)(?<source>(?:\n|.)*)```/
-    let match = msgContent.match(regex);
-    return match;
+function findTypstBlocks(msgContent) {
+    const firstLineRegex = /(?<ticks>`{3,})(typ|typst) +(r|render)(?<args> .*)?\n/;
+    let remainingMessage = msgContent;
+    let foundBlocks = [];
+    let firstLine = firstLineRegex.exec(remainingMessage)
+    while (firstLine != null) {
+        let block = { position: firstLine.index }
+        let ticks = firstLine.groups.ticks;
+        let rest = remainingMessage.slice(firstLine.index + firstLine[0].length)
+        block.code = rest.slice(0, rest.search(ticks))
+        block.args = firstLine.groups.args?.trim().split(/ +/)
+        foundBlocks.push(block)
+        remainingMessage = rest.slice(rest.search(ticks) + ticks.length)
+        firstLine = firstLineRegex.exec(remainingMessage);
+    }
+    return foundBlocks
 }
 
 function containsRenderedBlock(msgContent, hash) {
@@ -102,9 +114,8 @@ function containsRenderedBlock(msgContent, hash) {
     return match != undefined
 }
 
-async function processTypst(regexMatch) {
-    let typstSource = regexMatch.groups.source;
-    let cooked = await cookTypst(typstSource)
+async function processTypst(typstCode) {
+    let cooked = await cookTypst(typstCode)
     return cooked
 }
 
@@ -118,7 +129,7 @@ export default apiInitializer("1.13.0", (api) => {
         icon: "code",
         label: themePrefix("render_typst"),
         action: (toolbarEvent) => {
-            toolbarEvent.applySurround("\n```typst render=true\n", "\n```\n", "typst_sample", {
+            toolbarEvent.applySurround("\n```typst r\n", "\n```\n", "typst_sample", {
                 multiline: false,
             });
         },
@@ -126,21 +137,22 @@ export default apiInitializer("1.13.0", (api) => {
 
     api.composerBeforeSave(function () {
         return new Promise((resolve) => {
-            let typstBlock = findTypstBlock(this.reply);
-            if (typstBlock == null) {
+            let typstBlock = findTypstBlocks(this.reply)[0];
+            console.log(typstBlock)
+            if (typstBlock == undefined) {
                 resolve();
                 return;
             }
             // TODO: maybe include compiler version into the hash
             // TODO: maybe increase bits of hash function to reduce collisions
-            const sourceHash = simpleHash(typstBlock[0])
+            const sourceHash = simpleHash(typstBlock.code + typstBlock.position)
             if (containsRenderedBlock(this.reply, sourceHash)) {
                 console.info("typst code already compiled")
                 resolve();
                 return;
             }
 
-            processTypst(typstBlock).then((svgStrings) => {
+            processTypst(typstBlock.code).then((svgStrings) => {
                 return svgStrings[0];
             }).then((svgString) => {
                 uploadSvgString(svgString).then((upload) => {
