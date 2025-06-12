@@ -44,90 +44,17 @@ function uploadSvgFile(file) {
 }
 
 function simpleHash(string) {
-  var hash = 0;
-  var i, chr;
-  if (string.length === 0) return hash;
-  for (i = 0; i < string.length; i++) {
-    chr = string.charCodeAt(i);
-    hash = ((hash << 5) - hash) + chr;
-    // Convert to 32bit integer
-    hash |= 0;
-    // Convert to hex string of fixed length
-    hash = ('00000000' + hash.toString(16).toUpperCase()).slice(-8)
-  }
-  return hash;
-}
-
-
-function buildDisplay(block, cooked) {
-    let snippet_result = document.createElement("div");
-    snippet_result.classList.add("snippet-result")
-
-    let snippet_ctas = document.createElement("div");
-    snippet_ctas.classList.add("snippet-ctas")
-
-    let snippet_result_code = document.createElement("div");
-    snippet_result_code.classList.add("snippet-result-code")
-
-    let snippet_box_edit = document.createElement("div")
-    snippet_box_edit.classList.add("snippet-box-edit")
-
-    let pages = document.createElement("div")
-    pages.classList.add("pages")
-
-    cooked.forEach((svg, idx) => {
-        let node = document.createElement("div");
-        node.classList.add("page")
-        node.innerHTML = svg;
-        pages.append(node);
-    })
-
-    snippet_box_edit.append(pages)
-    snippet_result_code.append(snippet_box_edit)
-    snippet_result.append(snippet_ctas, snippet_result_code)
-    block.appendChild(snippet_result);
-
-    panzoom(pages, {
-        transformOrigin: { x: 0, y: 0 },
-        beforeWheel: function (e) {
-            // allow wheel-zoom only if ctrlKey is down. Otherwise - ignore
-            var shouldIgnore = !e.ctrlKey;
-            return shouldIgnore;
-        },
-        beforeMouseDown: function (e) {
-            // disable panning
-            return true;
-        }
-    })
-}
-
-async function applyTypst(element, key = "composer") {
-    let typst_blocks = element.querySelectorAll("pre[data-code-wrap=typst][data-code-render=true]")
-    if (!typst_blocks.length) {
-        return;
+    var hash = 0;
+    var i, chr;
+    if (string.length === 0) return hash;
+    for (i = 0; i < string.length; i++) {
+        chr = string.charCodeAt(i);
+        hash = ((hash << 5) - hash) + chr;
+        // Convert to 32bit integer
+        hash |= 0;
+        // Convert to hex string of fixed length
     }
-
-    // TODO add spinner if rendering/downloading compiler takes too long
-    // svgbob implements something similar
-
-    typst_blocks.forEach(async (block, index) => {
-        if (block.dataset.processed) {
-            return;
-        }
-
-        const code = block.querySelector("code");
-
-        if (!code) {
-            block.dataset.processed = "true";
-            return;
-        }
-
-        let remove_preamble = block.getAttribute("data-code-preamble") == "false"
-        let cooked = await cookTypst(code.innerText, remove_preamble);
-
-        block.dataset.processed = "true";
-        buildDisplay(block, cooked);
-    });
+    return ('00000000' + hash.toString(16).toUpperCase()).slice(-8)
 }
 
 let messageSeq = 0;
@@ -227,16 +154,4 @@ export default apiInitializer("1.13.0", (api) => {
             })
         })
     })
-
-    api.decorateCookedElement(
-        async (elem, helper) => {
-            const post = helper?.getModel();
-            const id = post ? `post_${post.id}` : "composer";
-            applyTypst(elem, id);
-        },
-        { id: "discourse-typst" }
-    );
 });
-
-
-// typst font urls: https://typst.app/assets/fonts/Charter-Regular.ttf
