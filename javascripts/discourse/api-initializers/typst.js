@@ -43,6 +43,21 @@ function uploadSvgFile(file) {
     });
 }
 
+function simpleHash(string) {
+  var hash = 0;
+  var i, chr;
+  if (string.length === 0) return hash;
+  for (i = 0; i < string.length; i++) {
+    chr = string.charCodeAt(i);
+    hash = ((hash << 5) - hash) + chr;
+    // Convert to 32bit integer
+    hash |= 0;
+    // Convert to hex string of fixed length
+    hash = ('00000000' + hash.toString(16).toUpperCase()).slice(-8)
+  }
+  return hash;
+}
+
 
 function buildDisplay(block, cooked) {
     let snippet_result = document.createElement("div");
@@ -154,6 +169,12 @@ function findTypstBlock(msgContent) {
     return match;
 }
 
+function containsRenderedBlock(msgContent, hash) {
+    const regex = /!\[svg\|source-hash-(?<hash>[0-9a-fA-F]{8})\]\(.*\)/g
+    let match = msgContent.matchAll(regex)?.find((it) => it.groups.hash === hash);
+    return match != undefined
+}
+
 async function processTypst(regexMatch) {
     let typstSource = regexMatch.groups.source;
     let cooked = await cookTypst(typstSource)
@@ -183,6 +204,15 @@ export default apiInitializer("1.13.0", (api) => {
                 resolve();
                 return;
             }
+            // TODO: maybe include compiler version into the hash
+            // TODO: maybe increase bits of hash function to reduce collisions
+            const sourceHash = simpleHash(typstBlock[0])
+            if (containsRenderedBlock(this.reply, sourceHash)) {
+                console.info("typst code already compiled")
+                resolve();
+                return;
+            }
+
             processTypst(typstBlock).then((svgStrings) => {
                 return svgStrings[0];
             }).then((svgString) => {
@@ -190,7 +220,7 @@ export default apiInitializer("1.13.0", (api) => {
                     if (upload && upload.url) {
                         console.log(`Uploaded rendered Typst to ${upload.url}`)
                         // Append image markdown to post
-                        this.set("reply", `${this.reply}\n\n![svg](${upload.url})`)
+                        this.set("reply", `${this.reply}\n\n![svg|source-hash-${sourceHash}](${upload.url})`)
                     }
                     resolve();
                 });
