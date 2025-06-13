@@ -52,8 +52,10 @@ function simpleHash(string) {
         hash = ((hash << 5) - hash) + chr;
         // Convert to 32bit integer
         hash |= 0;
-        // Convert to hex string of fixed length
     }
+    // Make it unsigned
+    hash = hash >>> 0;
+    // Convert to hex string of fixed length
     return ('00000000' + hash.toString(16).toUpperCase()).slice(-8)
 }
 
@@ -119,6 +121,23 @@ async function processTypst(typstCode) {
     return cooked
 }
 
+async function myfun(typstBlock, msgContent) {
+    // TODO: maybe include compiler version into the hash
+    // TODO: maybe increase bits of hash function to reduce collisions
+    const sourceHash = simpleHash(typstBlock.code + typstBlock.position)
+    if (containsRenderedBlock(msgContent, sourceHash)) {
+        console.info("typst code already compiled")
+        return;
+    }
+
+    let svgs = await processTypst(typstBlock.code);
+    let upload = await uploadSvgString(svgs[0]);
+    if (upload && upload.url) {
+        console.log(`Uploaded rendered Typst to ${upload.url}`)
+        return { hash: sourceHash, url: upload.url }
+    }
+}
+
 
 export default apiInitializer("1.13.0", (api) => {
     // this is a hack as applySurround expects a top level
@@ -137,32 +156,18 @@ export default apiInitializer("1.13.0", (api) => {
 
     api.composerBeforeSave(function () {
         return new Promise((resolve) => {
-            let typstBlock = findTypstBlocks(this.reply)[0];
-            console.log(typstBlock)
-            if (typstBlock == undefined) {
+            let typstBlocks = findTypstBlocks(this.reply);
+            console.log(typstBlocks)
+            if (typstBlocks == undefined) {
                 resolve();
                 return;
             }
-            // TODO: maybe include compiler version into the hash
-            // TODO: maybe increase bits of hash function to reduce collisions
-            const sourceHash = simpleHash(typstBlock.code + typstBlock.position)
-            if (containsRenderedBlock(this.reply, sourceHash)) {
-                console.info("typst code already compiled")
-                resolve();
-                return;
-            }
-
-            processTypst(typstBlock.code).then((svgStrings) => {
-                return svgStrings[0];
-            }).then((svgString) => {
-                uploadSvgString(svgString).then((upload) => {
-                    if (upload && upload.url) {
-                        console.log(`Uploaded rendered Typst to ${upload.url}`)
-                        // Append image markdown to post
-                        this.set("reply", `${this.reply}\n\n![svg|source-hash-${sourceHash}](${upload.url})`)
-                    }
-                    resolve();
-                });
+            Promise.all(typstBlocks.map(block => myfun(block, this.reply))).then(results => {
+                for (const result of results) {
+                    if (result != undefined)
+                        this.set("reply", `${this.reply}\n\n![svg|source-hash-${result.hash}](${result.url})`)
+                }
+                resolve()
             })
         })
     })
